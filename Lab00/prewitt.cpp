@@ -32,7 +32,8 @@ int detectByPrewitt(Mat src, Mat& dst, int direction) {
 		edgeH.convertTo(edgeH, CV_64F, 1.0 / 255.0);
 		magnitude(edgeV, edgeH, mag);
 		mag.convertTo(mag, CV_8U, 255);*/
-		dst = abs(edgeH) + abs(edgeV);
+		//dst = abs(edgeH) + abs(edgeV);
+		magnitude(edgeH, edgeV, dst);
 
 	}
 	else if (direction == 0) dst = edgeH;

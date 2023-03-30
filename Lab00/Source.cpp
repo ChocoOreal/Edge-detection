@@ -21,19 +21,11 @@ Mat readImg(string fname) {
 
 int main() {
 	
-	Mat img = readImg("..\\..\\..\\..\\Downloads\\new_tab.png");
+	Mat img = readImg("..\\..\\..\\..\\Downloads\\lenna.png");
 	
 	Mat dst;
 	detectByCany(img, dst);
 	imshow("after filtering", dst);
 	waitKey(0);
-	/*double x[9] = { 1, 5,-2, 3, 4, 5, 7, 9,10 };
-	double y[9] = { 1, 4, -5, 7, -9,10, -5,2, 3 };
-	Mat Ix(3, 3, CV_64F, x);
-	Mat Iy(3, 3, CV_64F, y);
-	Mat mag, angle;
-	cartToPolar(Ix, Iy, mag, angle, true);
-	cout << mag;
-	cout << angle;*/
 	return 0;
 }
