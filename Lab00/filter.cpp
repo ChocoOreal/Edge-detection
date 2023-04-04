@@ -29,3 +29,25 @@ Mat filter(Mat_<double> src, Mat_<double> kernel) {
 	}
 	return result;
 }
+
+void gaussianKernel(double* kernel, int size, float sigma) {
+	if (size % 2 == 0) {
+		throw "Size must be an odd number";
+	}
+	else {
+		size = size / 2;
+	}
+	int k = 0;
+	double sum = 0;
+	float den = 2 * 3.14 * sigma * sigma;
+	for (int i = -size; i <= size; i++) {
+		for (int j = -size; j <= size; j++) {
+			kernel[k] = exp(-(i * i + j * j) / (2 * sigma * sigma)) / den;
+			sum += kernel[k++];
+		}
+	}
+
+	for (int i = 0; i < k; i++) {
+		kernel[i] /= sum;
+	}
+}

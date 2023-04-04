@@ -1,12 +1,12 @@
 #include "prewitt.h"
-int detectByPrewitt(Mat src, Mat& dst, int direction) {
+int detectByPrewitt(Mat src, Mat dst, int direction) {
 	double kerV[9] = { -1.0, 0.0, 1.0,
 					-1.0, 0.0, 1.0,
 					-1.0, 0.0, 1.0 };
 	double kerH[9] = { 1.0, 1.0, 1.0,
 					  0.0, 0.0, 0.0,
 					 -1.0, -1.0, -1.0 };
-	Mat img_padded;
+	Mat img_padded, temp;
 	copyMakeBorder(src, img_padded, 1, 1, 1, 1, BORDER_CONSTANT);
 	if (img_padded.empty()) return 0;
 
@@ -14,8 +14,6 @@ int detectByPrewitt(Mat src, Mat& dst, int direction) {
 
 
 
-	/*edgeV.convertTo(edgeV, CV_8UC1, 1 / 256.0);
-	edgeH.convertTo(edgeH, CV_8UC1, 1 / 256.0);*/
 	if (direction == 0 || direction == -1) {
 		kernelH = Mat(3, 3, CV_64F, kerH);
 		edgeH = filter(img_padded, kernelH);
@@ -28,18 +26,15 @@ int detectByPrewitt(Mat src, Mat& dst, int direction) {
 
 	}
 	if (direction == -1) {
-		/*edgeV.convertTo(edgeV, CV_64F, 1.0 / 255.0);
-		edgeH.convertTo(edgeH, CV_64F, 1.0 / 255.0);
-		magnitude(edgeV, edgeH, mag);
-		mag.convertTo(mag, CV_8U, 255);*/
-		//dst = abs(edgeH) + abs(edgeV);
-		magnitude(edgeH, edgeV, dst);
+		
+		magnitude(edgeH, edgeV, temp);
 
 	}
-	else if (direction == 0) dst = edgeH;
-	else if (direction == 1) dst = edgeV;
+	else if (direction == 0) temp = edgeH;
+	else if (direction == 1) temp = edgeV;
 	else
 		cout << "direction must be in [-1, 0, 1]";
 	//dst.convertTo(dst, CV_8U, 255.0f);
+	temp.copyTo(dst);
 	return 1;
 }
